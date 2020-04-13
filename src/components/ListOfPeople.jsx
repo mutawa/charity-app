@@ -5,6 +5,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 
+import "./ListOfPeople.css";
+
 const ListOfPeople = () => {
   const [people, setPeople] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
@@ -47,10 +49,10 @@ const ListOfPeople = () => {
   const addNew = () => {
     const man = {
       id: 0,
-      first_name: "ahmad",
+      first_name: prompt("الإسم الأول"),
       father_name: "abdullah",
       grand_name: "ahmad",
-      family_name: "mutawa",
+      family_name: prompt("إسم العائلة"),
     };
 
     const addOnServer = async () => {
@@ -64,10 +66,11 @@ const ListOfPeople = () => {
   };
 
   return (
-    <>
+    <div className="container m-3">
       <button onClick={addNew} type="button" className="btn btn-sm btn-primary">
         <span className="fa fa-plus"></span> جديد
       </button>
+      <span>عدد السجلات : {rowCount}</span>
       <table className="table table-bordered table-sm">
         <thead>
           <tr>
@@ -81,19 +84,29 @@ const ListOfPeople = () => {
             <Person key={i} person={p} onDelete={deletePerson} />
           ))}
         </tbody>
-        <tfoot>
+        <tfoot dir="ltr">
           <tr>
             <td colSpan="3">
-              {[...Array(Math.ceil(rowCount / 10)).keys()].map((b) => (
-                <button key={b} onClick={() => setPageNumber(b + 1)}>
-                  {b + 1}
-                </button>
-              ))}
+              <ul className="pagination">
+                {[...Array(Math.ceil(rowCount / 10)).keys()].map((b) => (
+                  <li
+                    className={`page-item ${
+                      pageNumber == b + 1 ? "active" : ""
+                    }`}
+                    key={b}
+                    onClick={() => setPageNumber(b + 1)}
+                  >
+                    <button type="button" className="page-link">
+                      {b + 1}
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </td>
           </tr>
         </tfoot>
       </table>
-    </>
+    </div>
   );
 };
 

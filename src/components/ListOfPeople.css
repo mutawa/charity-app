@@ -1,0 +1,7 @@
+table {
+  text-align: right;
+}
+
+table tfoot td {
+  text-align: center;
+}
